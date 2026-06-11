@@ -1,1 +1,7 @@
 # Liste des vulnérabilités CVE ignorées par Trivy pour le frontend
+
+# OpenSSL PKCS7_verify() Use-After-Free (Non exploitable : API ne gère pas de signatures PKCS7)
+CVE-2026-45447
+
+# Picomatch ReDoS via extglob quantifiers (Non exploitable : Pas d'inputs glob patterns utilisateur)
+CVE-2026-33671
