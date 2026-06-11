@@ -18,6 +18,9 @@ FROM node:22-alpine AS production
 
 WORKDIR /usr/src/app
 
+# Donner les droits au dossier à l'utilisateur node AVANT de switcher
+RUN chown -R node:node /usr/src/app
+
 # Exécution en tant qu'utilisateur non-root pour la sécurité
 USER node
 
