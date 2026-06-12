@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+/* =========================================
+   Charte Graphique Collector
+   ========================================= */
+:root {
+  --bg-primary: #FDFBF7; /* Beige Lumineux */
+  --bg-secondary: #F4EFE6; /* Beige Sable */
+  --primary-color: #FF6B35; /* Orange Flash */
+  --accent-color: #C1491C; /* Terracotta */
+  --text-color: #2B2625; /* Brun Sombre */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Redéfinition des couleurs principales PrimeNG pour correspondre à la charte */
+.p-button {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  
+  &:hover {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+  }
+}
+
+.p-card {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-color) !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.p-inputtext {
+  background-color: #ffffff !important;
+  color: var(--text-color) !important;
+  border-color: #d1c8b8 !important;
+  
+  &:enabled:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.2) !important;
+  }
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  
+  &:hover {
+    color: var(--accent-color);
+  }
+}
