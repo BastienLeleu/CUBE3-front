@@ -9,15 +9,11 @@ import { vi } from 'vitest';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let mockAuthService: any;
-  let mockRouter: any;
+  let mockAuthService: Record<string, ReturnType<typeof vi.fn>>;
 
   beforeEach(async () => {
     mockAuthService = {
       login: vi.fn().mockReturnValue(of({}))
-    };
-    mockRouter = {
-      navigate: vi.fn()
     };
 
     await TestBed.configureTestingModule({

@@ -9,7 +9,7 @@ import { vi } from 'vitest';
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
-  let mockRouter: any;
+  let mockRouter: Record<string, ReturnType<typeof vi.fn>>;
 
   beforeEach(() => {
     mockRouter = { navigate: vi.fn() };
