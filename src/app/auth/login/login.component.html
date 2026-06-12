@@ -1,31 +1,37 @@
 <div class="auth-container">
   <p-card header="Connexion" class="auth-card">
-    <div *ngIf="errorMessage" class="p-error block mb-3 text-center">
-      {{ errorMessage }}
-    </div>
-    
+    @if (errorMessage) {
+      <div class="p-error block mb-3 text-center">
+        {{ errorMessage }}
+      </div>
+    }
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="field">
         <label for="email">Email</label>
         <input id="email" type="email" pInputText formControlName="email" class="w-full" placeholder="votre@email.com" />
-        <small class="p-error block" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          Un email valide est requis.
-        </small>
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <small class="p-error block">
+            Un email valide est requis.
+          </small>
+        }
       </div>
-      
+
       <div class="field mt-3">
         <label for="password">Mot de passe</label>
         <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" placeholder="Votre mot de passe"></p-password>
-        <small class="p-error block" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          Le mot de passe est requis.
-        </small>
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <small class="p-error block">
+            Le mot de passe est requis.
+          </small>
+        }
       </div>
 
       <div class="form-actions mt-4">
         <p-button label="Se connecter" type="submit" [disabled]="loginForm.invalid || isLoading" [loading]="isLoading" styleClass="w-full"></p-button>
       </div>
     </form>
-    
+
     <div class="auth-footer mt-4 text-center">
       <p>Pas encore de compte ? <a routerLink="/register">Inscrivez-vous ici</a></p>
     </div>

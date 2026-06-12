@@ -1,4 +1,4 @@
-import { Injectable, signal, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
@@ -9,16 +9,16 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private platformId = inject<object>(PLATFORM_ID);
+
   private apiUrl = `${environment.apiUrl}/auth`;
   
   // Utilisation des Signals d'Angular pour gérer l'état réactif de l'utilisateur
-  currentUser = signal<any | null>(null);
+  currentUser = signal<unknown | null>(null);
 
-  constructor(
-    private http: HttpClient, 
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+  constructor() {
     this.checkSession();
   }
 
@@ -33,13 +33,13 @@ export class AuthService {
     }
   }
 
-  register(userData: any): Observable<any> {
+  register(userData: Record<string, unknown>): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
+  login(credentials: Record<string, unknown>): Observable<{ access_token?: string; user?: unknown }> {
+    return this.http.post<{ access_token?: string; user?: unknown }>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: { access_token?: string; user?: unknown }) => {
         if (response.access_token) {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.access_token);

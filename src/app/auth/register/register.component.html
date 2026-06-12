@@ -1,12 +1,16 @@
 <div class="auth-container">
   <p-card header="Inscription" class="auth-card">
-    <div *ngIf="errorMessage" class="p-error block mb-3 text-center">
-      {{ errorMessage }}
-    </div>
-    <div *ngIf="successMessage" style="color: var(--p-green-500); font-weight: bold;" class="block mb-3 text-center">
-      {{ successMessage }}
-    </div>
-    
+    @if (errorMessage) {
+      <div class="p-error block mb-3 text-center">
+        {{ errorMessage }}
+      </div>
+    }
+    @if (successMessage) {
+      <div style="color: var(--p-green-500); font-weight: bold;" class="block mb-3 text-center">
+        {{ successMessage }}
+      </div>
+    }
+
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="grid formgrid">
         <div class="field col-12 md:col-6">
@@ -22,24 +26,28 @@
       <div class="field mt-3">
         <label for="email">Email</label>
         <input id="email" type="email" pInputText formControlName="email" class="w-full" placeholder="votre@email.com" />
-        <small class="p-error block" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-          Un email valide est requis.
-        </small>
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <small class="p-error block">
+            Un email valide est requis.
+          </small>
+        }
       </div>
-      
+
       <div class="field mt-3">
         <label for="password">Mot de passe</label>
         <p-password id="password" formControlName="password" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" placeholder="Minimum 8 caractères"></p-password>
-        <small class="p-error block" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-          Le mot de passe doit contenir au moins 8 caractères.
-        </small>
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <small class="p-error block">
+            Le mot de passe doit contenir au moins 8 caractères.
+          </small>
+        }
       </div>
 
       <div class="form-actions mt-4">
         <p-button label="S'inscrire" type="submit" [disabled]="registerForm.invalid || isLoading" [loading]="isLoading" styleClass="w-full"></p-button>
       </div>
     </form>
-    
+
     <div class="auth-footer mt-4 text-center">
       <p>Déjà un compte ? <a routerLink="/login">Connectez-vous ici</a></p>
     </div>
