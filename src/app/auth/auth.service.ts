@@ -37,14 +37,14 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  login(credentials: Record<string, unknown>): Observable<{ access_token?: string; user?: unknown }> {
-    return this.http.post<{ access_token?: string; user?: unknown }>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: { access_token?: string; user?: unknown }) => {
+  login(credentials: Record<string, unknown>): Observable<{ access_token?: string; user?: Record<string, unknown> }> {
+    return this.http.post<{ access_token?: string; user?: Record<string, unknown> }>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: { access_token?: string; user?: Record<string, unknown> }) => {
         if (response.access_token) {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.access_token);
           }
-          this.currentUser.set(response.user);
+          this.currentUser.set(response.user ?? null);
         }
       })
     );
