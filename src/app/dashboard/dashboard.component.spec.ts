@@ -6,7 +6,7 @@ import { vi } from 'vitest';
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let mockAuthService: Record<string, ReturnType<typeof vi.fn>>;
+  let mockAuthService: { logout: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     mockAuthService = {
