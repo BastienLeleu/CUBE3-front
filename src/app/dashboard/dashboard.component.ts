@@ -11,7 +11,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
 
   logout() {

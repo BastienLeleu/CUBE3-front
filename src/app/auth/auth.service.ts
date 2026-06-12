@@ -9,14 +9,14 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
-  private platformId = inject<object>(PLATFORM_ID);
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+  private readonly platformId = inject<object>(PLATFORM_ID);
 
   private apiUrl = `${environment.apiUrl}/auth`;
   
   // Utilisation des Signals d'Angular pour gérer l'état réactif de l'utilisateur
-  currentUser = signal<unknown | null>(null);
+  currentUser = signal<Record<string, unknown> | null>(null);
 
   constructor() {
     this.checkSession();
