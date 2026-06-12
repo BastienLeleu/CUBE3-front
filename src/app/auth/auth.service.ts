@@ -13,7 +13,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly platformId = inject<object>(PLATFORM_ID);
 
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
   
   // Utilisation des Signals d'Angular pour gérer l'état réactif de l'utilisateur
   currentUser = signal<Record<string, unknown> | null>(null);
