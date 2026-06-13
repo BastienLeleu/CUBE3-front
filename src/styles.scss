@@ -1,11 +1,6 @@
 @import "primeicons/primeicons.css";
 
-/* Variables SCSS globales (Charte Collector) */
-$collector-bg-primary: #FDFBF7;    // Beige Lumineux
-$collector-bg-secondary: #F4EFE6;  // Beige Sable
-$collector-cta: #FF6B35;           // Orange Flash
-$collector-accent: #C1491C;        // Terracotta
-$collector-text: #2B2625;          // Brun Sombre
+@import "variables";
 
 /* =========================================
    Charte Graphique Collector

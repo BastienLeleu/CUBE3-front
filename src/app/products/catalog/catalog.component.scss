@@ -1,9 +1,4 @@
-// Couleurs de la charte TasteSkill
-$collector-bg-primary: #FDFBF7;
-$collector-bg-secondary: #F4EFE6;
-$collector-cta: #FF6B35;
-$collector-accent: #C1491C;
-$collector-text: #2B2625;
+@import '../../../variables.scss';
 
 .catalog-page {
   background-color: $collector-bg-primary;
@@ -50,7 +45,7 @@ $collector-text: #2B2625;
       min-width: 250px;
     }
 
-    ::ng-deep .filter-dropdown {
+    :host ::ng-deep .filter-dropdown {
       min-width: 200px;
     }
   }
@@ -63,7 +58,7 @@ $collector-text: #2B2625;
       color: $collector-text;
     }
     
-    ::ng-deep .price-slider {
+    :host ::ng-deep .price-slider {
       .p-slider-range {
         background-color: $collector-cta;
       }
@@ -92,7 +87,7 @@ $collector-text: #2B2625;
   }
 }
 
-::ng-deep .product-card-wrapper {
+:host ::ng-deep .product-card-wrapper {
   .product-card {
     background-color: $collector-bg-secondary;
     border: none;

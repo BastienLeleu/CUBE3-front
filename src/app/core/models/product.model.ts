@@ -1,9 +1,16 @@
 export enum ProductCondition {
-  NEW = 'Neuf',
-  VERY_GOOD = 'Très bon état',
-  GOOD = 'Bon état',
-  USED = 'Usagé',
+  NEW = 'NEW',
+  VERY_GOOD = 'VERY_GOOD',
+  GOOD = 'GOOD',
+  USED = 'USED',
 }
+
+export const ProductConditionLabels: Record<ProductCondition, string> = {
+  [ProductCondition.NEW]: 'Neuf',
+  [ProductCondition.VERY_GOOD]: 'Très bon état',
+  [ProductCondition.GOOD]: 'Bon état',
+  [ProductCondition.USED]: 'Usagé',
+};
 
 export interface UserBasic {
   id: string;

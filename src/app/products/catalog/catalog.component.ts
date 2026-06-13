@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { ProductService, GetProductsParams } from '../services/product.service';
-import { Product, ProductCondition } from '../../core/models/product.model';
+import { Product, ProductCondition, ProductConditionLabels } from '../../core/models/product.model';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -31,13 +31,13 @@ import { TagModule } from 'primeng/tag';
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
-  products: Product[] = [];
+  products = signal<Product[]>([]);
   
   // Filters
-  searchQuery = '';
-  selectedCategory: string | null = null;
-  selectedCondition: string | null = null;
-  priceRange: number[] = [0, 5000];
+  searchQuery = signal('');
+  selectedCategory = signal<string | null>(null);
+  selectedCondition = signal<string | null>(null);
+  priceRange = signal<number[]>([0, 5000]);
 
   categories = [
     { label: 'Toutes les catégories', value: null },
@@ -53,12 +53,14 @@ export class CatalogComponent implements OnInit {
     { label: 'Antiquités', value: 'Antiquités' },
   ];
 
+  conditionLabels = ProductConditionLabels;
+
   conditions = [
     { label: 'Tous les états', value: null },
-    { label: ProductCondition.NEW, value: ProductCondition.NEW },
-    { label: ProductCondition.VERY_GOOD, value: ProductCondition.VERY_GOOD },
-    { label: ProductCondition.GOOD, value: ProductCondition.GOOD },
-    { label: ProductCondition.USED, value: ProductCondition.USED },
+    { label: ProductConditionLabels[ProductCondition.NEW], value: ProductCondition.NEW },
+    { label: ProductConditionLabels[ProductCondition.VERY_GOOD], value: ProductCondition.VERY_GOOD },
+    { label: ProductConditionLabels[ProductCondition.GOOD], value: ProductCondition.GOOD },
+    { label: ProductConditionLabels[ProductCondition.USED], value: ProductCondition.USED },
   ];
 
   private productService = inject(ProductService);
@@ -69,16 +71,16 @@ export class CatalogComponent implements OnInit {
 
   loadProducts(): void {
     const params: GetProductsParams = {
-      search: this.searchQuery || undefined,
-      category: this.selectedCategory || undefined,
-      condition: this.selectedCondition || undefined,
-      minPrice: this.priceRange[0].toString(),
-      maxPrice: this.priceRange[1].toString(),
+      search: this.searchQuery() || undefined,
+      category: this.selectedCategory() || undefined,
+      condition: this.selectedCondition() || undefined,
+      minPrice: this.priceRange()[0].toString(),
+      maxPrice: this.priceRange()[1].toString(),
     };
 
     this.productService.getProducts(params).subscribe({
       next: (data) => {
-        this.products = data;
+        this.products.set(data);
       },
       error: (err) => {
         console.error('Failed to load products', err);
