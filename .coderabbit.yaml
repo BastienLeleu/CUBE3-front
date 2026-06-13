@@ -1,0 +1,25 @@
+language: "fr-FR"
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_instructions:
+    - path: "**/*.ts"
+      instructions: |
+        - Assure-toi que les nouveaux composants ou services Angular disposent de tests unitaires (Vitest) correspondants.
+        - L'application utilise Angular 18 : favorise l'utilisation des Signals et des composants Standalone.
+        - Applique les principes de "TasteSkill" : n'accepte pas de design générique ou de CSS bâclé. Exige des espacements propres, du glassmorphism, et un design premium.
+        - L'utilisation de GSAP pour les animations doit être fluide et optimisée.
+
+chat:
+  auto_reply: true
