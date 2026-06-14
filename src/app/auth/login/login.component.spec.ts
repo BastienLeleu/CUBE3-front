@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { CartService } from '../../cart/cart';
 import { Router, provideRouter } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 
@@ -26,6 +27,7 @@ describe('LoginComponent', () => {
       providers: [
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartService, useValue: mockCartService },
+        MessageService,
         provideRouter([])
       ]
     })

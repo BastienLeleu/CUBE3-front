@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CatalogComponent } from './catalog.component';
 import { ProductService } from '../services/product.service';
 import { Product, ProductCondition } from '../../core/models/product.model';
+import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -20,6 +21,7 @@ describe('CatalogComponent', () => {
       imports: [CatalogComponent],
       providers: [
         { provide: ProductService, useValue: productServiceMock },
+        MessageService,
         provideNoopAnimations()
       ]
     }).compileComponents();
