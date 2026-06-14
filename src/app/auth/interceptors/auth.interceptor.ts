@@ -1,19 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from '../auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.getToken();
-
-  if (token) {
-    const cloned = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return next(cloned);
-  }
-
-  return next(req);
+  // L'authentification utilise désormais des cookies HttpOnly.
+  // On s'assure que le navigateur envoie bien les cookies avec chaque requête.
+  const cloned = req.clone({
+    withCredentials: true
+  });
+  
+  return next(cloned);
 };

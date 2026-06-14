@@ -24,11 +24,11 @@ export class AuthService {
 
   private checkSession() {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        // Dans un cas réel, on décoderait le JWT pour récupérer l'utilisateur,
-        // ou on appellerait une route /auth/me
-        this.currentUser.set({ isAuthenticated: true });
+      const isLoggedIn = localStorage.getItem('is_logged_in');
+      if (isLoggedIn === 'true') {
+        const userDataStr = localStorage.getItem('user_data');
+        const userData = userDataStr ? JSON.parse(userDataStr) : { isAuthenticated: true };
+        this.currentUser.set(userData);
       }
     }
   }
@@ -37,35 +37,40 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  login(credentials: Record<string, unknown>): Observable<{ access_token?: string; user?: Record<string, unknown> }> {
-    return this.http.post<{ access_token?: string; user?: Record<string, unknown> }>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: { access_token?: string; user?: Record<string, unknown> }) => {
-        if (response.access_token) {
+  login(credentials: Record<string, unknown>): Observable<{ message?: string; user?: Record<string, unknown> }> {
+    return this.http.post<{ message?: string; user?: Record<string, unknown> }>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response) => {
+        if (response.user) {
           if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('is_logged_in', 'true');
+            localStorage.setItem('user_data', JSON.stringify(response.user));
           }
-          this.currentUser.set(response.user ?? null);
+          this.currentUser.set(response.user);
         }
       })
     );
   }
 
   logout() {
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
+      next: () => this.handleLogout(),
+      error: () => this.handleLogout() // On nettoie même si l'API échoue
+    });
+  }
+
+  private handleLogout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('is_logged_in');
+      localStorage.removeItem('user_data');
     }
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token');
-    }
-    return null;
-  }
-
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('is_logged_in') === 'true';
+    }
+    return false;
   }
 }
