@@ -15,7 +15,7 @@
     </nav>
 
     <div class="header-actions">
-      <button class="icon-btn cart-btn" (click)="openCart()" aria-label="Panier">
+      <button class="icon-btn cart-btn" (click)="openCart()" [attr.aria-label]="cartItemCount() > 0 ? 'Panier ' + cartItemCount() : 'Panier'">
         <i class="pi pi-shopping-bag"></i>
         @if (cartItemCount() > 0) {
           <span class="cart-badge">{{ cartItemCount() }}</span>

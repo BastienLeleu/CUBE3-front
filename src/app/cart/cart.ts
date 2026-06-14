@@ -52,7 +52,7 @@ export class CartService {
   }
 
   toggleCart(visible?: boolean) {
-    const nextState = visible !== undefined ? visible : !this.isCartVisible();
+    const nextState = visible ?? !this.isCartVisible();
     this.isCartVisible.set(nextState);
     if (nextState) {
       this.fetchUserCart().subscribe();

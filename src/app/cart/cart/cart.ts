@@ -10,7 +10,7 @@ import { CartService } from '../cart';
   styleUrl: './cart.scss'
 })
 export class CartComponent {
-  private cartService = inject(CartService);
+  private readonly cartService = inject(CartService);
 
   cart = this.cartService.cart;
 

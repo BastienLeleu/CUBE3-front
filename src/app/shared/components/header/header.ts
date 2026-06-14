@@ -10,14 +10,12 @@ import { CartService } from '../../../cart/cart';
   styleUrl: './header.scss'
 })
 export class HeaderComponent {
-  private authService = inject(AuthService);
-  private cartService = inject(CartService);
-
+  private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
 
   cartItemCount: Signal<number> = computed(() => {
     const cart = this.cartService.cart();
-    if (!cart || !cart.items) return 0;
-    return cart.items.reduce((total, item) => total + item.quantity, 0);
+    return cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   });
 
   openCart() {
