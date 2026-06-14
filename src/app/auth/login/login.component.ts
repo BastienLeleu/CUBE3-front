@@ -1,4 +1,5 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { switchMap, catchError, of } from 'rxjs';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -54,23 +55,23 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
+    this.authService.login(this.loginForm.value).pipe(
+      switchMap(() => {
+        return this.cartService.fetchUserCart().pipe(
+          catchError(() => {
+            return of(null);
+          })
+        );
+      })
+    ).subscribe({
+      next: (cart) => {
         this.isLoading = false;
-        this.cartService.fetchUserCart().subscribe({
-          next: (cart) => {
-            if (cart?.items?.length > 0) {
-              this.messageService.add({ severity: 'info', summary: 'Panier synchronisé', detail: `Vous avez ${cart.items.length} produit(s) en attente.` });
-              this.cartService.toggleCart(true);
-            }
-            this.cdr.detectChanges();
-            this.router.navigate(['/catalog']);
-          },
-          error: () => {
-            this.cdr.detectChanges();
-            this.router.navigate(['/catalog']);
-          }
-        });
+        if (cart && cart.items && cart.items.length > 0) {
+          this.messageService.add({ severity: 'info', summary: 'Panier synchronisé', detail: `Vous avez ${cart.items.length} produit(s) en attente.` });
+          this.cartService.toggleCart(true, true);
+        }
+        this.cdr.detectChanges();
+        this.router.navigate(['/catalog']);
       },
       error: (err) => {
         this.isLoading = false;

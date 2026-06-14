@@ -3,6 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient } from '@angular/common/http';
 import { CartService, Cart } from './cart';
 import { environment } from '../../environments/environment';
+import { MessageService } from 'primeng/api';
 
 describe('CartService', () => {
   let service: CartService;
@@ -14,7 +15,8 @@ describe('CartService', () => {
       providers: [
         CartService,
         provideHttpClient(),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        MessageService
       ]
     });
     service = TestBed.inject(CartService);
@@ -86,10 +88,6 @@ describe('CartService', () => {
     expect(reqAdd.request.method).toBe('POST');
     expect(reqAdd.request.body).toEqual({ product_id: 'p1', quantity: 1 });
     reqAdd.flush(mockCart);
-
-    // Auto-open triggers fetchUserCart
-    const reqFetch = httpMock.expectOne(apiUrl);
-    reqFetch.flush(mockCart);
 
     expect(service.cart()).toEqual(mockCart);
     expect(service.isCartVisible()).toBe(true);

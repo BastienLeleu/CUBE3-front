@@ -26,9 +26,16 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       const isLoggedIn = localStorage.getItem('is_logged_in');
       if (isLoggedIn === 'true') {
-        const userDataStr = localStorage.getItem('user_data');
-        const userData = userDataStr ? JSON.parse(userDataStr) : { isAuthenticated: true };
-        this.currentUser.set(userData);
+        try {
+          const userDataStr = localStorage.getItem('user_data');
+          if (!userDataStr) {
+            throw new Error('No user data');
+          }
+          const userData = JSON.parse(userDataStr);
+          this.currentUser.set(userData);
+        } catch {
+          this.clearLocalState();
+        }
       }
     }
   }
@@ -59,17 +66,32 @@ export class AuthService {
   }
 
   private handleLogout() {
+    this.clearLocalState();
+    this.router.navigate(['/login']);
+  }
+
+  private clearLocalState() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('is_logged_in');
       localStorage.removeItem('user_data');
     }
     this.currentUser.set(null);
-    this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('is_logged_in') === 'true';
+      if (localStorage.getItem('is_logged_in') !== 'true') {
+        return false;
+      }
+      try {
+        const userDataStr = localStorage.getItem('user_data');
+        if (!userDataStr) throw new Error('No user data');
+        JSON.parse(userDataStr);
+        return true;
+      } catch {
+        this.clearLocalState();
+        return false;
+      }
     }
     return false;
   }

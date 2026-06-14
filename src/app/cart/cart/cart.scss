@@ -35,9 +35,21 @@
       display: flex;
       gap: 1rem;
       padding: 1rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      background: rgba(vars.$collector-bg-primary, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      border: 1px solid rgba(vars.$collector-bg-primary, 0.3);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(vars.$collector-bg-primary, 0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+          0 12px 48px rgba(0, 0, 0, 0.15),
+          inset 0 1px 0 rgba(vars.$collector-bg-primary, 0.6);
+      }
 
       .item-image {
         width: 80px;

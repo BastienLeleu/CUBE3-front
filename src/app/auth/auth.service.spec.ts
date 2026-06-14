@@ -104,6 +104,7 @@ describe('AuthService', () => {
   it('should verify authentication correctly', () => {
     expect(service.isAuthenticated()).toBe(false);
     localStorage.setItem('is_logged_in', 'true');
+    localStorage.setItem('user_data', JSON.stringify({ id: '1' }));
     expect(service.isAuthenticated()).toBe(true);
   });
 });

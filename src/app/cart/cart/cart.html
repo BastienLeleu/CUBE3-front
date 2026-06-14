@@ -18,7 +18,7 @@
             <div class="cart-item">
               <div class="item-image">
                 @if (item.product.images?.length) {
-                  <img [src]="item.product.images![0]" [alt]="item.product.title">
+                  <img [src]="item.product.images?.[0]" [alt]="item.product.title">
                 } @else {
                   <div class="placeholder-img"><i class="pi pi-image"></i></div>
                 }

@@ -15,7 +15,8 @@ describe('authGuard', () => {
       isAuthenticated: vi.fn()
     };
     mockRouter = {
-      navigate: vi.fn()
+      navigate: vi.fn(),
+      createUrlTree: vi.fn().mockReturnValue('mockUrlTree')
     };
 
     TestBed.configureTestingModule({
@@ -33,10 +34,10 @@ describe('authGuard', () => {
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
-  it('should return false and navigate to login if not authenticated', () => {
+  it('should return a UrlTree to navigate to login if not authenticated', () => {
     mockAuthService.isAuthenticated.mockReturnValue(false);
     const result = TestBed.runInInjectionContext(() => authGuard({} as import('@angular/router').ActivatedRouteSnapshot, {} as import('@angular/router').RouterStateSnapshot));
-    expect(result).toBe(false);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+    expect(result).toBe('mockUrlTree');
+    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/login']);
   });
 });

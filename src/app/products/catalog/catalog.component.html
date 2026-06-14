@@ -19,10 +19,10 @@
     </div>
 
     <div class="price-filter">
-      <div class="price-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+      <div class="price-header">
         <span class="price-label">Prix: {{priceRange()[0]}}€ - {{priceRange()[1]}}€</span>
-        <div class="max-limit-control" style="display: flex; align-items: center; gap: 0.5rem;">
-          <span style="font-size: 0.8rem; opacity: 0.7;">Max limit:</span>
+        <div class="max-limit-control">
+          <span class="max-limit-label">Max limit:</span>
           <p-inputNumber [ngModel]="maxSliderLimit()" (ngModelChange)="maxSliderLimit.set($event || 100)" [min]="10" [style]="{'width': '80px'}" [inputStyle]="{'width': '100%'}" inputStyleClass="p-inputtext-sm"></p-inputNumber>
         </div>
       </div>
@@ -64,7 +64,7 @@
             }
             <div class="product-footer">
               <span class="product-price">{{ product.price }} €</span>
-              <div class="action-buttons" style="display: flex; gap: 0.5rem;">
+              <div class="action-buttons">
                 <p-button icon="pi pi-cart-plus" severity="secondary" styleClass="p-button-rounded p-button-outlined" (onClick)="addToCart(product)"></p-button>
                 <p-button label="Voir" icon="pi pi-eye" styleClass="p-button-rounded view-button"></p-button>
               </div>

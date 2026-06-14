@@ -15,13 +15,13 @@
     </nav>
 
     <div class="header-actions">
-      <button class="icon-btn cart-btn" (click)="openCart()" [attr.aria-label]="cartItemCount() > 0 ? 'Panier ' + cartItemCount() : 'Panier'">
+      <button type="button" class="icon-btn cart-btn" (click)="openCart()" [attr.aria-label]="cartItemCount() > 0 ? 'Panier ' + cartItemCount() : 'Panier'">
         <i class="pi pi-shopping-bag"></i>
         @if (cartItemCount() > 0) {
           <span class="cart-badge">{{ cartItemCount() }}</span>
         }
       </button>
-      <button class="icon-btn logout-btn" (click)="logout()" aria-label="Déconnexion">
+      <button type="button" class="icon-btn logout-btn" (click)="logout()" aria-label="Déconnexion">
         <i class="pi pi-sign-out"></i>
       </button>
     </div>

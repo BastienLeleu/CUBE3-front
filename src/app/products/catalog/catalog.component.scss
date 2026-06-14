@@ -46,9 +46,7 @@
     }
   }
 
-  :host ::ng-deep .filter-dropdown {
-    min-width: 200px;
-  }
+
 
   .price-filter {
     .price-header {
@@ -67,24 +65,33 @@
         align-items: center;
         gap: 0.5rem;
 
-        ::ng-deep .p-inputnumber {
-          width: 80px;
-          .p-inputtext {
-            width: 100%;
-            padding: 0.25rem 0.5rem;
-          }
+        .max-limit-label {
+          font-size: 0.8rem;
+          opacity: 0.7;
         }
       }
     }
   }
+}
 
-  :host ::ng-deep .price-slider {
-    .p-slider-range {
-      background-color: vars.$collector-cta;
-    }
-    .p-slider-handle {
-      border-color: vars.$collector-cta;
-    }
+:host ::ng-deep .filter-dropdown {
+  min-width: 200px;
+}
+
+:host ::ng-deep .price-slider {
+  .p-slider-range {
+    background-color: vars.$collector-cta;
+  }
+  .p-slider-handle {
+    border-color: vars.$collector-cta;
+  }
+}
+
+:host ::ng-deep .max-limit-control .p-inputnumber {
+  width: 80px;
+  .p-inputtext {
+    width: 100%;
+    padding: 0.25rem 0.5rem;
   }
 }
 
