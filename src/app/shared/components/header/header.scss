@@ -66,7 +66,7 @@
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
-      color: #e2e8f0; // High contrast text instead of rgba(0.6)
+      color: #e2e8f0;
       font-weight: 500;
       padding: 0.5rem 1rem;
       border-radius: 8px;
@@ -78,12 +78,12 @@
 
       &:hover {
         color: #ffffff;
-        background-color: rgba(255, 255, 255, 0.15); // increased contrast
+        background-color: #3a3a3a;
       }
 
       &.active {
         color: vars.$collector-accent;
-        background-color: rgba(vars.$collector-accent, 0.15);
+        background-color: #2a2a2a;
         font-weight: 600;
       }
     }
@@ -95,8 +95,8 @@
     align-items: center;
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.1); // Increased from 0.05
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: #2a2a2a;
+      border: 1px solid #404040;
       border-radius: 10px;
       width: 42px;
       height: 42px;
@@ -104,7 +104,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #f8fafc; // Solid high contrast instead of rgba(0.8)
+      color: #f8fafc;
       position: relative;
       transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 
@@ -113,7 +113,7 @@
       }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.25);
+        background-color: #404040;
         color: #ffffff;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -125,15 +125,15 @@
 
       &.cart-btn:hover {
         color: vars.$collector-accent;
-        border-color: rgba(vars.$collector-accent, 0.4);
-        background: rgba(vars.$collector-accent, 0.15);
+        border-color: #502020;
+        background-color: #2c1a1a;
       }
 
       .cart-badge {
         position: absolute;
         top: -6px;
         right: -6px;
-        background-color: #dc2626; // Tailwind red-600 for better contrast with white text
+        background-color: #dc2626;
         color: #ffffff;
         font-size: 0.7rem;
         font-weight: 700;
