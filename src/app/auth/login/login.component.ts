@@ -66,7 +66,7 @@ export class LoginComponent {
     ).subscribe({
       next: (cart) => {
         this.isLoading = false;
-        if (cart && cart.items && cart.items.length > 0) {
+        if (cart?.items?.length) {
           this.messageService.add({ severity: 'info', summary: 'Panier synchronisé', detail: `Vous avez ${cart.items.length} produit(s) en attente.` });
           this.cartService.toggleCart(true, true);
         }

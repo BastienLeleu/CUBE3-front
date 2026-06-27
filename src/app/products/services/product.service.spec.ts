@@ -32,7 +32,7 @@ describe('ProductService', () => {
     }));
 
     const calledParams = httpClientMock.get.mock.calls[0][1].params as HttpParams;
-    expect(calledParams.keys().length).toBe(0);
+    expect(calledParams.keys()).toHaveLength(0);
   });
 
   it('should transform GetProductsParams into HttpParams and send only truthy values', () => {
@@ -48,7 +48,7 @@ describe('ProductService', () => {
     expect(calledParams.get('search')).toBe('test');
     expect(calledParams.get('category')).toBe('Cards');
     expect(calledParams.get('condition')).toBe('NEW');
-    expect(calledParams.keys().length).toBe(3);
+    expect(calledParams.keys()).toHaveLength(3);
   });
 
   it('should ignore falsy values when transforming GetProductsParams', () => {
@@ -76,6 +76,6 @@ describe('ProductService', () => {
     expect(calledParams.has('maxPrice')).toBe(false); // 0 is falsy
     
     expect(calledParams.get('category')).toBe('Cards');
-    expect(calledParams.keys().length).toBe(1);
+    expect(calledParams.keys()).toHaveLength(1);
   });
 });
