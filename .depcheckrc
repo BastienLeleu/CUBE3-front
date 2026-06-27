@@ -1,0 +1,24 @@
+{
+  "ignores": [
+    "@angular/cli",
+    "@angular/build",
+    "@angular/compiler-cli",
+    "@angular/animations",
+    "@angular/platform-server",
+    "@angular/ssr",
+    "karma*",
+    "jasmine*",
+    "vitest",
+    "@vitest/*",
+    "jsdom",
+    "typescript*",
+    "eslint*",
+    "angular-eslint",
+    "@eslint/*",
+    "@types/*",
+    "primeicons",
+    "@primeng/themes",
+    "gsap",
+    "tslib"
+  ]
+}
