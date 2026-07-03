@@ -1,7 +1,14 @@
-.auth-layout {
+.auth-layout-wrapper {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   background-color: var(--color-beige-light, #FDFBF7);
+
+  .auth-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
 }
