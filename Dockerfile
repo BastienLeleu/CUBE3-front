@@ -28,6 +28,11 @@ USER node
 COPY --from=builder --chown=node:node /usr/src/app/dist ./dist
 COPY --chown=node:node package*.json ./
 
+# Mise à jour de npm pour garantir des outils internes et sous-dépendances à jour (corrige sigstore)
+USER root
+RUN npm install -g npm@latest && chown -R node:node /usr/local/lib/node_modules
+USER node
+
 # Installation uniquement des dépendances de production (allège considérablement l'image)
 RUN npm ci --omit=dev
 
