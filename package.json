@@ -52,7 +52,7 @@
     "@types/node": "^20.17.19",
     "@vitest/coverage-v8": "^4.1.8",
     "angular-eslint": "21.4.0",
-    "eslint": "^10.3.0",
+    "eslint": "^10.6.0",
     "jsdom": "^27.1.0",
     "typescript-eslint": "8.59.2",
     "vitest": "^4.0.8"
