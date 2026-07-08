@@ -38,5 +38,9 @@ ENV PORT=4000
 # Port par défaut du serveur SSR Angular
 EXPOSE 4000
 
+# Vérification de santé (Healthcheck) pour s'assurer que le frontend SSR répond
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:4000/ || exit 1
+
 # Démarrage du serveur Node.js SSR
 CMD ["node", "dist/collector-front/server/server.mjs"]

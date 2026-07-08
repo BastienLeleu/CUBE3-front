@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 
 import { AuthService } from '../auth.service';
+import { CartService } from '../../cart/cart';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +30,10 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly messageService = inject(MessageService);
 
   loginForm: FormGroup;
   isLoading = false;
@@ -53,13 +57,29 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.isLoading = false;
-        this.cdr.detectChanges();
-        this.router.navigate(['/dashboard']); // Redirection vers le dashboard
+        this.cartService.fetchUserCart().subscribe({
+          next: (cart) => {
+            if (cart && cart.items && cart.items.length > 0) {
+              this.messageService.add({ severity: 'info', summary: 'Panier synchronisé', detail: `Vous avez ${cart.items.length} produit(s) en attente.` });
+              this.cartService.toggleCart(true);
+            }
+            this.cdr.detectChanges();
+            this.router.navigate(['/catalog']);
+          },
+          error: () => {
+            this.cdr.detectChanges();
+            this.router.navigate(['/catalog']);
+          }
+        });
       },
       error: (err) => {
         this.isLoading = false;
-        const msg = err.error?.message;
-        this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Identifiants invalides');
+        if (err.status === 0) {
+          this.errorMessage = 'Serveur injoignable, veuillez réessayer plus tard.';
+        } else {
+          const msg = err.error?.message;
+          this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Identifiants invalides');
+        }
         this.cdr.detectChanges();
       }
     });

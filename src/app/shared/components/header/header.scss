@@ -1,0 +1,152 @@
+@use '../../../../variables' as vars;
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  background-color: rgba(26, 26, 26, 0.7); /* Translucent dark background */
+  backdrop-filter: blur(12px); /* Glassmorphism */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, vars.$collector-cta, vars.$collector-accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(vars.$collector-accent, 0.4);
+    }
+
+    h1 {
+      margin: 0;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px; /* tracking-tight */
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.5rem;
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      &.active {
+        color: vars.$collector-accent;
+        background-color: rgba(vars.$collector-accent, 0.1);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.8);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+      i {
+        font-size: 1.25rem;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &.cart-btn:hover {
+        color: vars.$collector-accent;
+        border-color: rgba(vars.$collector-accent, 0.3);
+        background: rgba(vars.$collector-accent, 0.1);
+      }
+
+      .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background-color: #ef4444; // Tailwind red-500 equivalent
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(26, 26, 26, 0.9);
+      }
+    }
+  }
+}

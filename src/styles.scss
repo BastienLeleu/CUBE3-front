@@ -1,14 +1,16 @@
 @import "primeicons/primeicons.css";
 
+@import "variables";
+
 /* =========================================
    Charte Graphique Collector
    ========================================= */
 :root {
-  --bg-primary: #FDFBF7; /* Beige Lumineux */
-  --bg-secondary: #F4EFE6; /* Beige Sable */
-  --primary-color: #FF6B35; /* Orange Flash */
-  --accent-color: #C1491C; /* Terracotta */
-  --text-color: #2B2625; /* Brun Sombre */
+  --bg-primary: #{$collector-bg-primary};
+  --bg-secondary: #{$collector-bg-secondary};
+  --primary-color: #{$collector-cta};
+  --accent-color: #{$collector-accent};
+  --text-color: #{$collector-text};
 }
 
 body {
