@@ -18,8 +18,7 @@ export function initializeApp(authService: AuthService, cartService: CartService
     if (authService.isAuthenticated()) {
       return cartService.fetchUserCart().pipe(
         take(1),
-        catchError((err) => {
-          console.error('APP_INITIALIZER fetchUserCart failed:', err);
+        catchError(() => {
           messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de synchroniser le panier.' });
           return of(null);
         })

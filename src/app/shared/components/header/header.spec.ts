@@ -9,10 +9,8 @@ import { vi } from 'vitest';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockAuthService: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockCartService: any;
+  let mockAuthService: { logout: ReturnType<typeof vi.fn> };
+  let mockCartService: { cart: WritableSignal<Cart | null>; toggleCart: ReturnType<typeof vi.fn> };
   let cartSignal: WritableSignal<Cart | null>;
 
   beforeEach(async () => {

@@ -80,13 +80,12 @@ describe('CatalogComponent', () => {
     expect(component.getConditionSeverity('UNKNOWN' as unknown as ProductCondition)).toBe('info');
   });
 
-  it('should handle errors in loadProducts and log to console', () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { /* noop */ });
+  it('should handle errors in loadProducts and set errorMessage', () => {
     const error = new Error('Network error');
     productServiceMock.getProducts.mockReturnValue(throwError(() => error));
 
     fixture.detectChanges(); // triggers loadProducts via ngOnInit
 
-    expect(consoleSpy).toHaveBeenCalledWith('Failed to load products', error);
+    expect(component.errorMessage()).toBe('Network error');
   });
 });

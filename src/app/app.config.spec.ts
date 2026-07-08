@@ -20,9 +20,6 @@ describe('AppConfig initializeApp', () => {
     mockMessageService = {
       add: vi.fn()
     };
-    
-    // Silence console.error for test output cleanliness
-    vi.spyOn(console, 'error').mockImplementation(vi.fn());
   });
 
   afterEach(() => {
@@ -71,7 +68,6 @@ describe('AppConfig initializeApp', () => {
       if (result$) {
         result$.subscribe(res => {
           expect(res).toBeNull();
-          expect(console.error).toHaveBeenCalledWith('APP_INITIALIZER fetchUserCart failed:', expect.any(Error));
           expect(mockMessageService.add).toHaveBeenCalledWith({ severity: 'error', summary: 'Erreur', detail: 'Impossible de synchroniser le panier.' });
           resolve();
         });

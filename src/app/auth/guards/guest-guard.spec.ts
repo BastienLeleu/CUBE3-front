@@ -5,10 +5,8 @@ import { AuthService } from '../auth.service';
 import { vi } from 'vitest';
 
 describe('guestGuard', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockAuthService: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockRouter: any;
+  let mockAuthService: { isAuthenticated: ReturnType<typeof vi.fn> };
+  let mockRouter: { navigate: ReturnType<typeof vi.fn>; createUrlTree: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     mockAuthService = {

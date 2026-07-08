@@ -33,7 +33,7 @@ describe('CartService', () => {
 
   it('should initialize with empty cart', () => {
     const initialCart = service.cart();
-    expect(initialCart.items.length).toBe(0);
+    expect(initialCart.items).toHaveLength(0);
     expect(initialCart.total).toBe(0);
   });
 
