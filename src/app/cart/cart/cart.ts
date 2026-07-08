@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class CartComponent {
   private readonly cartService = inject(CartService);
+  private readonly messageService = inject(MessageService);
 
   cart = this.cartService.cart;
 
@@ -23,16 +24,13 @@ export class CartComponent {
     this.cartService.toggleCart(val);
   }
 
-  closeCart() {
+  closeCart(): void {
     this.cartService.toggleCart(false);
   }
 
-  private readonly messageService = inject(MessageService);
-
-  removeItem(cartItemId: string) {
+  removeItem(cartItemId: string): void {
     this.cartService.removeFromCart(cartItemId).subscribe({
-      error: (err) => {
-        console.error('Erreur lors de la suppression du produit', err);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Erreur',

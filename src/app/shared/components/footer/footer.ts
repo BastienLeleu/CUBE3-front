@@ -15,17 +15,17 @@ export class FooterComponent {
   showCGU = signal(false);
   showPrivacy = signal(false);
 
-  openMentionsLegales(event: Event) {
+  openMentionsLegales(event: Event): void {
     event.preventDefault();
     this.showMentionsLegales.set(true);
   }
 
-  openCGU(event: Event) {
+  openCGU(event: Event): void {
     event.preventDefault();
     this.showCGU.set(true);
   }
 
-  openPrivacy(event: Event) {
+  openPrivacy(event: Event): void {
     event.preventDefault();
     this.showPrivacy.set(true);
   }

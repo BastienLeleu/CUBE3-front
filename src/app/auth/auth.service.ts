@@ -22,7 +22,7 @@ export class AuthService {
     this.checkSession();
   }
 
-  private checkSession() {
+  private checkSession(): void {
     if (isPlatformBrowser(this.platformId)) {
       const isLoggedIn = localStorage.getItem('is_logged_in');
       if (isLoggedIn === 'true') {
@@ -58,19 +58,19 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(): void {
     this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
       next: () => this.handleLogout(),
       error: () => this.handleLogout() // On nettoie même si l'API échoue
     });
   }
 
-  private handleLogout() {
+  private handleLogout(): void {
     this.clearLocalState();
     this.router.navigate(['/login']);
   }
 
-  private clearLocalState() {
+  private clearLocalState(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('is_logged_in');
       localStorage.removeItem('user_data');

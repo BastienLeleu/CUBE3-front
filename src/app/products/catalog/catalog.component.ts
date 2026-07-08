@@ -92,7 +92,6 @@ export class CatalogComponent implements OnInit {
         this.products.set(data);
       },
       error: (err) => {
-        console.error('Failed to load products', err);
         this.errorMessage.set(err?.message ?? 'Impossible de charger les produits');
       }
     });
@@ -112,7 +111,7 @@ export class CatalogComponent implements OnInit {
     }
   }
 
-  addToCart(product: Product) {
+  addToCart(product: Product): void {
     this.cartService.addToCart(product.id, 1).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Produit ajouté au panier' });

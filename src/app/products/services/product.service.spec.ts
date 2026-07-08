@@ -27,9 +27,9 @@ describe('ProductService', () => {
   it('should call HttpClient.get with apiUrl and empty params when params is undefined', () => {
     service.getProducts();
 
-    expect(httpClientMock.get).toHaveBeenCalledWith(`${environment.apiUrl}/products`, expect.objectContaining({
-      params: expect.any(HttpParams)
-    }));
+    expect(httpClientMock.get).toHaveBeenCalledWith(`${environment.apiUrl}/products`, {
+      params: new HttpParams()
+    });
 
     const calledParams = httpClientMock.get.mock.calls[0][1].params as HttpParams;
     expect(calledParams.keys()).toHaveLength(0);

@@ -18,7 +18,7 @@
             <div class="cart-item">
               <div class="item-image">
                 @if (item.product.images?.length) {
-                  <img [src]="item.product.images?.[0]" [alt]="item.product.title">
+                  <img [src]="item.product.images?.[0]" [alt]="item.product.title || 'Article dans le panier'">
                 } @else {
                   <div class="placeholder-img"><i class="pi pi-image"></i></div>
                 }
@@ -28,7 +28,7 @@
                 <p class="price">{{ item.product.price }} €</p>
                 <div class="quantity-control">
                   <span>Qté: {{ item.quantity }}</span>
-                  <p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true" (onClick)="removeItem(item.id)"></p-button>
+                  <p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true" [ariaLabel]="'Supprimer ' + item.product.title + ' du panier'" (onClick)="removeItem(item.id)"></p-button>
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@
         <span>Total</span>
         <span class="amount">{{ cart().total || 0 }} €</span>
       </div>
-      <p-button label="Commander" styleClass="w-full" [disabled]="cart().items.length === 0"></p-button>
+      <p-button label="Commander" aria-label="Valider la commande" styleClass="w-full" [disabled]="cart().items.length === 0"></p-button>
     </div>
   </ng-template>
 </p-drawer>

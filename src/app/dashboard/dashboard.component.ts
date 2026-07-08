@@ -14,7 +14,7 @@ export class DashboardComponent {
   private readonly authService = inject(AuthService);
 
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 }

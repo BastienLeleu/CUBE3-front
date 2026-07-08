@@ -18,11 +18,11 @@ export class HeaderComponent {
     return cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   });
 
-  openCart() {
+  openCart(): void {
     this.cartService.toggleCart(true);
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 }

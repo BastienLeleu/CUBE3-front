@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { tap } from 'rxjs';
+import { tap, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 
 export interface CartItem {
@@ -33,13 +33,13 @@ export class CartService {
   cart = signal<Cart>({ items: [], total: 0 });
   isCartVisible = signal<boolean>(false);
 
-  fetchUserCart() {
+  fetchUserCart(): Observable<Cart> {
     return this.http.get<Cart>(this.apiUrl).pipe(
       tap(data => this.cart.set(data))
     );
   }
 
-  addToCart(productId: string, quantity = 1) {
+  addToCart(productId: string, quantity = 1): Observable<Cart> {
     return this.http.post<Cart>(`${this.apiUrl}/add`, { product_id: productId, quantity }).pipe(
       tap(data => {
         this.cart.set(data);
@@ -48,19 +48,18 @@ export class CartService {
     );
   }
 
-  removeFromCart(cartItemId: string) {
+  removeFromCart(cartItemId: string): Observable<Cart> {
     return this.http.delete<Cart>(`${this.apiUrl}/remove/${cartItemId}`).pipe(
       tap(data => this.cart.set(data))
     );
   }
 
-  toggleCart(visible?: boolean, skipFetch = false) {
+  toggleCart(visible?: boolean, skipFetch = false): void {
     const nextState = visible ?? !this.isCartVisible();
     this.isCartVisible.set(nextState);
     if (nextState && !skipFetch) {
       this.fetchUserCart().subscribe({
-        error: (err) => {
-          console.error('Erreur lors de la récupération du panier', err);
+        error: () => {
           this.messageService.add({
             severity: 'error',
             summary: 'Erreur',
