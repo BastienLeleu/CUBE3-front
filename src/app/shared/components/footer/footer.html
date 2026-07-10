@@ -1,0 +1,139 @@
+<footer class="app-footer">
+  <div class="footer-content">
+    <div class="footer-grid">
+      <!-- Brand & Mission -->
+      <div class="footer-brand">
+        <div class="logo-container">
+          <div class="logo-icon">C</div>
+          <span class="brand-name">Collector.Shop</span>
+        </div>
+        <p class="brand-tagline">
+          La plateforme de référence dédiée aux passionnés, collectionneurs d'articles rares et amateurs de pièces d'exception.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Discord"><i class="pi pi-discord"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="pi pi-twitter"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="pi pi-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="GitHub"><i class="pi pi-github"></i></a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/catalog">Catalogue produits</a></li>
+          <li><a href="/dashboard">Tableau de bord</a></li>
+          <li><a href="#">Nouveautés & pépites</a></li>
+          <li><a href="#">Vendeurs vérifiés</a></li>
+        </ul>
+      </div>
+
+      <!-- Informations légales -->
+      <div class="footer-column">
+        <h4>Informations légales</h4>
+        <ul>
+          <li><a href="#" (click)="openMentionsLegales($event)"><i class="pi pi-file-check me-1"></i> Mentions légales</a></li>
+          <li><a href="#" (click)="openCGU($event)"><i class="pi pi-shield me-1"></i> Conditions d'utilisation</a></li>
+          <li><a href="#" (click)="openPrivacy($event)"><i class="pi pi-lock me-1"></i> Confidentialité & RGPD</a></li>
+          <li><a href="#"><i class="pi pi-cog me-1"></i> Préférences cookies</a></li>
+        </ul>
+      </div>
+
+      <!-- Assistance & Sécurité -->
+      <div class="footer-column">
+        <h4>Assistance & Sécurité</h4>
+        <ul>
+          <li><span class="badge-secure"><i class="pi pi-check-circle"></i> Transactions 100% sécurisées</span></li>
+          <li><span class="badge-secure"><i class="pi pi-sync"></i> Supervision active 24/7</span></li>
+          <li><span class="badge-secure"><i class="pi pi-database"></i> Architecture résiliente</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        &copy; {{ currentYear }} Collector.Shop SAS. Tous droits réservés. Conçu avec passion par l'équipe DevSecOps.
+      </div>
+      <div class="bottom-links">
+        <a href="#" (click)="openMentionsLegales($event)">Mentions légales</a>
+        <span class="separator">&bull;</span>
+        <a href="#" (click)="openCGU($event)">CGU / CGV</a>
+        <span class="separator">&bull;</span>
+        <a href="#" (click)="openPrivacy($event)">RGPD</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Mentions Légales -->
+  <p-dialog [(visible)]="showMentionsLegales" [modal]="true" [style]="{width: '90vw', maxWidth: '750px'}" [draggable]="false" [resizable]="false" header="Mentions Légales">
+    <div class="legal-content">
+      <h5>1. Éditeur du site</h5>
+      <p>
+        Le site <strong>Collector.Shop</strong> est édité par la société <strong>Collector SAS</strong>, société par actions simplifiée au capital de 50 000 €, immatriculée au Registre du Commerce et des Sociétés sous le numéro 900 000 000 RCS Paris.<br>
+        <strong>Siège social :</strong> 42 Avenue des Collectionneurs, 75008 Paris, France.<br>
+        <strong>Directeur de la publication :</strong> Bastien Leleu, Lead Developer & Architecte DevSecOps.<br>
+        <strong>Contact :</strong> contact&#64;collector.shop | +33 1 80 00 00 00.
+      </p>
+
+      <h5>2. Hébergement & Infrastructure Cloud</h5>
+      <p>
+        L'infrastructure backend, les bases de données haute disponibilité et l'application frontend sont hébergées sur des clusters conteneurisés sécurisés.<br>
+        <strong>Supervision :</strong> Cluster Docker Compose orchestré avec monitoring temps réel Prometheus, Grafana et PgHero.
+      </p>
+
+      <h5>3. Propriété intellectuelle</h5>
+      <p>
+        L'ensemble des éléments constituant le site (architecture logicielle NestJS/Angular, design system, logotypes, textes, illustrations) est protégé par les lois relatives à la propriété intellectuelle. Toute reproduction intégrale ou partielle est strictement interdite sans accord écrit formel.
+      </p>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Fermer" icon="pi pi-times" (onClick)="showMentionsLegales.set(false)" styleClass="p-button-outlined"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Dialog Conditions d'Utilisation -->
+  <p-dialog [(visible)]="showCGU" [modal]="true" [style]="{width: '90vw', maxWidth: '750px'}" [draggable]="false" [resizable]="false" header="Conditions Générales d'Utilisation (CGU)">
+    <div class="legal-content">
+      <h5>1. Objet des CGU</h5>
+      <p>
+        Les présentes Conditions Générales d'Utilisation ont pour objet de définir les modalités de mise à disposition des services de la marketplace <strong>Collector.Shop</strong> aux utilisateurs et acheteurs vérifiés.
+      </p>
+
+      <h5>2. Accès et sécurité des comptes</h5>
+      <p>
+        L'accès à l'application nécessite la création d'un compte sécurisé protégé par authentification JWT cryptée (`HttpOnly`). L'utilisateur est seul responsable de la confidentialité de ses identifiants. Notre pipeline CI/CD applique des contrôles stricts de sécurité applicative (SCA, SAST, DAST OWASP ZAP) pour garantir l'intégrité de vos données.
+      </p>
+
+      <h5>3. Commandes & Panier temps réel</h5>
+      <p>
+        Les articles mis en vente sur le catalogue font l'objet d'un suivi transactionnel strict en base de données relationnelle PostgreSQL. L'ajout au panier garantit la réservation instantanée selon les limites de disponibilité fixées par les vendeurs.
+      </p>
+
+      <h5>4. Limitation de responsabilité</h5>
+      <p>
+        Collector.Shop s'efforce d'assurer une disponibilité de service de 99.9%. Toutefois, la plateforme ne saurait être tenue responsable des interruptions techniques exceptionnelles liées aux opérations de maintenance cloud ou aux mises à jour automatiques.
+      </p>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="J'ai compris" icon="pi pi-check" (onClick)="showCGU.set(false)"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Dialog Politique de Confidentialité -->
+  <p-dialog [(visible)]="showPrivacy" [modal]="true" [style]="{width: '90vw', maxWidth: '750px'}" [draggable]="false" [resizable]="false" header="Politique de Confidentialité & RGPD">
+    <div class="legal-content">
+      <h5>1. Protection des données personnelles</h5>
+      <p>
+        Conformément au Règlement Général sur la Protection des Données (RGPD - Règlement UE 2016/679), vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles collectées lors de votre inscription.
+      </p>
+      <h5>2. Traitement et sécurité</h5>
+      <p>
+        Vos mots de passe et tokens d'authentification sont hachés de manière irréversible selon les standards cryptographiques industriels les plus rigoureux. Aucune donnée personnelle n'est commercialisée à des tiers.
+      </p>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Fermer" icon="pi pi-times" (onClick)="showPrivacy.set(false)" styleClass="p-button-outlined"></p-button>
+    </ng-template>
+  </p-dialog>
+</footer>

@@ -28,6 +28,11 @@ USER node
 COPY --from=builder --chown=node:node /usr/src/app/dist ./dist
 COPY --chown=node:node package*.json ./
 
+# Mise à jour de npm pour garantir des outils internes et sous-dépendances à jour (corrige sigstore)
+USER root
+RUN npm install -g npm@latest && chown -R node:node /usr/local/lib/node_modules
+USER node
+
 # Installation uniquement des dépendances de production (allège considérablement l'image)
 RUN npm ci --omit=dev
 
@@ -37,6 +42,10 @@ ENV PORT=4000
 
 # Port par défaut du serveur SSR Angular
 EXPOSE 4000
+
+# Vérification de santé (Healthcheck) pour s'assurer que le frontend SSR répond
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:4000/ || exit 1
 
 # Démarrage du serveur Node.js SSR
 CMD ["node", "dist/collector-front/server/server.mjs"]

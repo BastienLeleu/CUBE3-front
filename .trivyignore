@@ -5,3 +5,6 @@ CVE-2026-45447
 
 # Picomatch ReDoS via extglob quantifiers (Non exploitable : Pas d'inputs glob patterns utilisateur)
 CVE-2026-33671
+
+# Sigstore certificateOIDs (Non exploitable : sous-dépendance interne du CLI npm dans node:22-alpine, non exécutée au runtime SSR)
+CVE-2026-48815

@@ -1,4 +1,5 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { switchMap, catchError, of } from 'rxjs';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -10,6 +11,8 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 
 import { AuthService } from '../auth.service';
+import { CartService } from '../../cart/cart';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +31,10 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly messageService = inject(MessageService);
 
   loginForm: FormGroup;
   isLoading = false;
@@ -42,7 +47,7 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.invalid) {
       return;
     }
@@ -50,16 +55,32 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
+    this.authService.login(this.loginForm.value).pipe(
+      switchMap(() => {
+        return this.cartService.fetchUserCart().pipe(
+          catchError(() => {
+            return of(null);
+          })
+        );
+      })
+    ).subscribe({
+      next: (cart) => {
         this.isLoading = false;
+        if (cart?.items?.length) {
+          this.messageService.add({ severity: 'info', summary: 'Panier synchronisé', detail: `Vous avez ${cart.items.length} produit(s) en attente.` });
+          this.cartService.toggleCart(true, true);
+        }
         this.cdr.detectChanges();
-        this.router.navigate(['/dashboard']); // Redirection vers le dashboard
+        this.router.navigate(['/catalog']);
       },
       error: (err) => {
         this.isLoading = false;
-        const msg = err.error?.message;
-        this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Identifiants invalides');
+        if (err.status === 0) {
+          this.errorMessage = 'Serveur injoignable, veuillez réessayer plus tard.';
+        } else {
+          const msg = err.error?.message;
+          this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Identifiants invalides');
+        }
         this.cdr.detectChanges();
       }
     });

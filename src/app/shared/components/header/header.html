@@ -1,0 +1,29 @@
+<header class="app-header">
+  <div class="header-content">
+    <div class="logo-container" routerLink="/catalog">
+      <div class="logo-icon">C</div>
+      <h1>Collector.Shop</h1>
+    </div>
+    
+    <nav class="nav-links">
+      <a routerLink="/catalog" routerLinkActive="active" class="nav-link">
+        <i class="pi pi-compass"></i> Catalogue
+      </a>
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+        <i class="pi pi-table"></i> Dashboard
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" class="icon-btn cart-btn" (click)="openCart()" [attr.aria-label]="cartItemCount() > 0 ? 'Panier ' + cartItemCount() : 'Panier'">
+        <i class="pi pi-shopping-bag"></i>
+        @if (cartItemCount() > 0) {
+          <span class="cart-badge">{{ cartItemCount() }}</span>
+        }
+      </button>
+      <button type="button" class="icon-btn logout-btn" (click)="logout()" aria-label="Déconnexion">
+        <i class="pi pi-sign-out"></i>
+      </button>
+    </div>
+  </div>
+</header>

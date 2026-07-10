@@ -68,9 +68,9 @@ describe('AuthService', () => {
     req.flush({ message: 'Success' });
   });
 
-  it('should set token and user on successful login', () => {
+  it('should set is_logged_in and user on successful login', () => {
     const mockCredentials = { email: 'test@test.com', password: 'password' };
-    const mockResponse = { access_token: 'fake-token', user: { id: 1, email: 'test@test.com' } };
+    const mockResponse = { message: 'Success', user: { id: 1, email: 'test@test.com' } };
 
     service.login(mockCredentials).subscribe();
 
@@ -79,29 +79,32 @@ describe('AuthService', () => {
     expect(req.request.body).toEqual(mockCredentials);
     req.flush(mockResponse);
 
-    expect(localStorage.getItem('token')).toBe('fake-token');
+    expect(localStorage.getItem('is_logged_in')).toBe('true');
+    expect(localStorage.getItem('user_data')).toBe(JSON.stringify(mockResponse.user));
     expect(service.currentUser()).toEqual(mockResponse.user);
   });
 
-  it('should clear token and user on logout and redirect', () => {
-    localStorage.setItem('token', 'fake-token');
+  it('should call API, clear storage and user on logout and redirect', () => {
+    localStorage.setItem('is_logged_in', 'true');
+    localStorage.setItem('user_data', '{"id":1}');
     service.currentUser.set({ id: 1 });
 
     service.logout();
 
-    expect(localStorage.getItem('token')).toBeNull();
+    const req = httpMock.expectOne(`${service['apiUrl']}/logout`);
+    expect(req.request.method).toBe('POST');
+    req.flush({}); // mock successful response
+
+    expect(localStorage.getItem('is_logged_in')).toBeNull();
+    expect(localStorage.getItem('user_data')).toBeNull();
     expect(service.currentUser()).toBeNull();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  it('should return token if present', () => {
-    localStorage.setItem('token', 'my-token');
-    expect(service.getToken()).toBe('my-token');
-  });
-
   it('should verify authentication correctly', () => {
     expect(service.isAuthenticated()).toBe(false);
-    localStorage.setItem('token', 'my-token');
+    localStorage.setItem('is_logged_in', 'true');
+    localStorage.setItem('user_data', JSON.stringify({ id: '1' }));
     expect(service.isAuthenticated()).toBe(true);
   });
 });

@@ -22,13 +22,20 @@ export class AuthService {
     this.checkSession();
   }
 
-  private checkSession() {
+  private checkSession(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        // Dans un cas réel, on décoderait le JWT pour récupérer l'utilisateur,
-        // ou on appellerait une route /auth/me
-        this.currentUser.set({ isAuthenticated: true });
+      const isLoggedIn = localStorage.getItem('is_logged_in');
+      if (isLoggedIn === 'true') {
+        try {
+          const userDataStr = localStorage.getItem('user_data');
+          if (!userDataStr) {
+            throw new Error('No user data');
+          }
+          const userData = JSON.parse(userDataStr);
+          this.currentUser.set(userData);
+        } catch {
+          this.clearLocalState();
+        }
       }
     }
   }
@@ -37,35 +44,55 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  login(credentials: Record<string, unknown>): Observable<{ access_token?: string; user?: Record<string, unknown> }> {
-    return this.http.post<{ access_token?: string; user?: Record<string, unknown> }>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: { access_token?: string; user?: Record<string, unknown> }) => {
-        if (response.access_token) {
+  login(credentials: Record<string, unknown>): Observable<{ message?: string; user?: Record<string, unknown> }> {
+    return this.http.post<{ message?: string; user?: Record<string, unknown> }>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response) => {
+        if (response.user) {
           if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('is_logged_in', 'true');
+            localStorage.setItem('user_data', JSON.stringify(response.user));
           }
-          this.currentUser.set(response.user ?? null);
+          this.currentUser.set(response.user);
         }
       })
     );
   }
 
-  logout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-    }
-    this.currentUser.set(null);
+  logout(): void {
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
+      next: () => this.handleLogout(),
+      error: () => this.handleLogout() // On nettoie même si l'API échoue
+    });
+  }
+
+  private handleLogout(): void {
+    this.clearLocalState();
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
+  private clearLocalState(): void {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token');
+      localStorage.removeItem('is_logged_in');
+      localStorage.removeItem('user_data');
     }
-    return null;
+    this.currentUser.set(null);
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('is_logged_in') !== 'true') {
+        return false;
+      }
+      try {
+        const userDataStr = localStorage.getItem('user_data');
+        if (!userDataStr) throw new Error('No user data');
+        JSON.parse(userDataStr);
+        return true;
+      } catch {
+        this.clearLocalState();
+        return false;
+      }
+    }
+    return false;
   }
 }

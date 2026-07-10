@@ -1,0 +1,50 @@
+<p-drawer [(visible)]="isVisible" position="right" (onHide)="closeCart()">
+  <ng-template pTemplate="header">
+    <div class="cart-header">
+      <h2>Mon Panier</h2>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="cart-content">
+      @if (cart().items.length === 0) {
+        <div class="empty-cart">
+          <i class="pi pi-shopping-bag"></i>
+          <p>Votre panier est vide</p>
+        </div>
+      } @else {
+        <div class="cart-items">
+          @for (item of cart().items; track item.id) {
+            <div class="cart-item">
+              <div class="item-image">
+                @if (item.product.images?.length) {
+                  <img [src]="item.product.images?.[0]" [alt]="item.product.title || 'Article dans le panier'">
+                } @else {
+                  <div class="placeholder-img"><i class="pi pi-image"></i></div>
+                }
+              </div>
+              <div class="item-details">
+                <h3>{{ item.product.title }}</h3>
+                <p class="price">{{ item.product.price }} €</p>
+                <div class="quantity-control">
+                  <span>Qté: {{ item.quantity }}</span>
+                  <p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true" [ariaLabel]="'Supprimer ' + item.product.title + ' du panier'" (onClick)="removeItem(item.id)"></p-button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="cart-footer">
+      <div class="total">
+        <span>Total</span>
+        <span class="amount">{{ cart().total || 0 }} €</span>
+      </div>
+      <p-button label="Commander" aria-label="Valider la commande" styleClass="w-full" [disabled]="cart().items.length === 0"></p-button>
+    </div>
+  </ng-template>
+</p-drawer>

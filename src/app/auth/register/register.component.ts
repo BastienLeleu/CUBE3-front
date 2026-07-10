@@ -45,7 +45,7 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.registerForm.invalid) {
       return;
     }
@@ -63,8 +63,12 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.isLoading = false;
-        const msg = err.error?.message;
-        this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Erreur lors de l\'inscription');
+        if (err.status === 0) {
+          this.errorMessage = 'Serveur injoignable, veuillez réessayer plus tard.';
+        } else {
+          const msg = err.error?.message;
+          this.errorMessage = Array.isArray(msg) ? msg[0] : (msg || 'Erreur lors de l\'inscription');
+        }
         this.cdr.detectChanges();
       }
     });
